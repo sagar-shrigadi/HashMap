@@ -79,12 +79,20 @@ export class LinkedList {
         let ifValueContains = this.contain(value);
 
         if(ifValueContains){
+            if (ifValueContains.currentIndex === 0) { // check to see if the node to remove is a head node
+                let currentNode = this.head;
+
+                this.head = currentNode.nextNode;
+                this.size--;
+                return;
+            }
             let indexOfNodeToRemove = this.atIndex(ifValueContains.currentIndex);
             let previousNode = this.atIndex(ifValueContains.currentIndex - 1);
 
             previousNode.nextNode = indexOfNodeToRemove.nextNode;
 
             this.size--;
+            return;
         } else {
             return null;
         }
