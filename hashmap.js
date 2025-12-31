@@ -25,6 +25,19 @@ class Hashmap {
         return hashcode;
     }
 
+    resize(){
+        let allPairs = this.entries(); // store all the current pairs of the hashmap before creating new array
+
+        this.capacity = this.capacity * 2;
+
+        this.dataArray = new Array(this.capacity);
+        this.size = 0;
+
+        allPairs.forEach((pair) => {
+            this.set(pair[0], pair[1]);
+        });
+    }
+
     set(key, value){
         let index = stringToIntHash(key, this.capacity);
 
@@ -48,6 +61,11 @@ class Hashmap {
         bucket.append([key, value]); // add the key and value pair if not found in list above
         this.size++;
 
+        // growth function
+
+        if (this.size > (this.capacity * this.loadFactor)) {
+            this.resize();
+        }
     }
 
     get(key){ 
@@ -138,20 +156,3 @@ class Hashmap {
         return entriesArray;
     }
 }
-
-const map = new Hashmap();
-map.set("first", 111);
-map.set("second", 222);
-map.set("third", 333);
-map.set("fourth", 444);
-map.set("fifth", 555);
-
-// console.log(map.get("second"));
-// console.log(map.has("sixth"));
-// console.log(map.remove("thord"));
-
-// console.log(map);
-// console.log(map.length());
-// map.clear();
-// console.log(map);
-console.log(map.entries())
